@@ -10,19 +10,14 @@
 @interface UIKeyboardInputModeController : NSObject
 @property (retain) UIKeyboardInputMode * currentInputMode;
 @property (nonatomic,retain) UIKeyboardInputMode * nextInputModeToUse;
-+(id)sharedInputModeController;
--(id)activeInputModes;
++ (id)sharedInputModeController;
+- (id)activeInputModes;
 @end
 
-@interface MyCode : NSObject
-+(void)switchToEmojiKeyboard;
-@end
-
-@implementation MyCode
-+(void)switchToEmojiKeyboard {
+static void switchToEmojiKeyboard() {
   UIKeyboardInputModeController *kimController = [UIKeyboardInputModeController sharedInputModeController];
-
   UIKeyboardInputMode *currentInputMode = [kimController currentInputMode];
+
   if ([currentInputMode.normalizedIdentifier isEqual:@"emoji"]) {
     kimController.currentInputMode = kimController.nextInputModeToUse;
     return;
@@ -38,17 +33,16 @@
     }
   }
 }
-@end
 
 %hook UISystemKeyboardDockController
--(void)dictationItemButtonWasPressed:(id)arg1 withEvent:(id)arg2 {
+- (void)dictationItemButtonWasPressed:(id)arg1 withEvent:(id)arg2 {
   NSSet *event = [arg2 allTouches];
   if (event) {
     id uiTouch = event.allObjects[0];
     if([NSStringFromClass([uiTouch classForCoder]) isEqual:@"UITouch"]){
       // check if phase is UITouchPhase.UITouchPhaseBegan);
       if ([uiTouch phase] == 0) {
-        [MyCode switchToEmojiKeyboard];
+        switchToEmojiKeyboard();
       }
     }
   }
@@ -56,13 +50,12 @@
 %end
 
 %hook UIKeyboardLayoutStar
--(UIKBTree*)keyHitTest:(CGPoint)arg1 {
+- (UIKBTree*)keyHitTest:(CGPoint)arg1 {
   UIKBTree* orig = %orig;
   if (orig && [orig.name isEqualToString:@"Dictation-Key"]) {
     orig.properties[@"KBinteractionType"] = @(0);
-    [MyCode switchToEmojiKeyboard];
+    switchToEmojiKeyboard();
   }
   return orig;
 }
-
 %end
