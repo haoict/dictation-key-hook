@@ -1,9 +1,9 @@
 Package: com.haoict.dictationkeyhook
 Name: Replace Dictation Key With Emoji
 Depends: mobilesubstrate
-Version: 0.0.2
+Version: 0.0.3
 Architecture: iphoneos-arm
-Description: Replace Dictation Key With Emoji
+Description: Show Emoji key in keyboard for iphone 5 - 6 - 7 - 8
 Maintainer: Hao Nguyen
 Author: Hao Nguyen
 Section: Tweaks
