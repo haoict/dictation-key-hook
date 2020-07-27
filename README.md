@@ -1,8 +1,9 @@
-# Dictation Key Hook
+# EmojiKey++
 
-Tweak to hook dictation key and replace it with Emoji for iOS!
+Show Emoji key in keyboard for iphone 5, 6, 7, 8  
+Support iOS 12 - 13  
 
-Just install, no preferences. Require device jailbroken
+<img src="https://haoict.github.io/cydia/images/emojikeyppbanner.jpg" alt="EmojiKey++" width="414" />
 
 ## Cydia Repo
 
